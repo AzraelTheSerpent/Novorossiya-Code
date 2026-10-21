@@ -1,0 +1,6 @@
+# Local agent data (folder is created as AGENTS/ on Windows)
+/AGENTS/
+/agents/
+
+# Local visit data
+/visit/
