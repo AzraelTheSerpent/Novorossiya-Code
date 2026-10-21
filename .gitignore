@@ -4,3 +4,7 @@
 
 # Local visit data
 /visit/
+
+# Local task data
+/TASKS/
+/tasks/
