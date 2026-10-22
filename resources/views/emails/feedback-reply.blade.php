@@ -6,7 +6,7 @@
 
     <div style="text-align:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.1)">
         <h1 style="margin:0;font-size:24px;letter-spacing:2px;color:#22d3ee">
-            ВИЗИТ <span style="color:#8b5cf6">ДОНЕЦК</span>
+            Код <span style="color:#8b5cf6">Новороссии</span>
         </h1>
     </div>
 
@@ -32,8 +32,8 @@
 
         <p style="margin:24px 0 0;color:#c9d4ee;font-size:14px;line-height:1.6">
             С уважением,<br>
-            <b style="color:#fff">Команда ВИЗИТ ДОНЕЦК</b><br>
-            <span style="color:#5a6684;font-size:12px">визит-донецк.рф</span>
+            <b style="color:#fff">Команда «Код Новороссии»</b><br>
+            <span style="color:#5a6684;font-size:12px">Код Новороссии</span>
         </p>
     </div>
 

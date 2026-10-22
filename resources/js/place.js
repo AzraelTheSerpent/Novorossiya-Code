@@ -1,4 +1,4 @@
-/* ВИЗИТ ДОНЕЦК · страница места */
+/* Код Новороссии · страница места */
 const $ = s => document.querySelector(s);
 
 let toastT;

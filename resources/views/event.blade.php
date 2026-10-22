@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $event->title }} — афиша ВИЗИТ ДОНЕЦК</title>
+    <title>{{ $event->title }} — афиша Код Новороссии</title>
     <meta name="description" content="{{ $event->description ?? $event->type->label() . ' ' . $event->starts_at->translatedFormat('d F') }}">
     <link rel="canonical" href="{{ url()->current() }}">
 
@@ -42,7 +42,7 @@
             ] : null,
             'organizer' => [
                 '@type' => 'Organization',
-                'name'  => 'ВИЗИТ ДОНЕЦК',
+                'name'  => 'Код Новороссии',
                 'url'   => url('/'),
             ],
         ]);

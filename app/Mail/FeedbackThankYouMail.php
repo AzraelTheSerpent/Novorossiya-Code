@@ -17,7 +17,7 @@ class FeedbackThankYouMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this
-            ->subject('✉ Спасибо! Ваше сообщение доставлено — ВИЗИТ ДОНЕЦК')
+            ->subject('✉ Спасибо! Ваше сообщение доставлено — Код Новороссии')
             ->view('emails.feedback-thank-you');
     }
 }

@@ -7,7 +7,7 @@
     {{-- Шапка --}}
     <div style="text-align:center;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.1)">
         <h1 style="margin:0;font-size:24px;letter-spacing:2px;color:#22d3ee">
-            ВИЗИТ <span style="color:#8b5cf6">ДОНЕЦК</span>
+            Код <span style="color:#8b5cf6">Новороссии</span>
         </h1>
     </div>
 
@@ -40,8 +40,8 @@
 
     {{-- Подвал --}}
     <div style="text-align:center;padding:24px 0;color:#5a6684;font-size:12px">
-        <p style="margin:8px 0">С уважением, команда ВИЗИТ ДОНЕЦК</p>
-        <p style="margin:8px 0">визит-донецк.рф · Главный городской путеводитель</p>
+        <p style="margin:8px 0">С уважением, команда «Код Новороссии»</p>
+        <p style="margin:8px 0">Код Новороссии · Главный городской путеводитель</p>
     </div>
 </div>
 </body>

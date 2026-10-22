@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $post->title }} — журнал ВИЗИТ ДОНЕЦК</title>
+    <title>{{ $post->title }} — журнал Код Новороссии</title>
     <meta name="description" content="{{ $post->excerpt }}">
     <link rel="canonical" href="{{ url()->current() }}">
 
@@ -23,7 +23,7 @@
             'image'    => url($post->cover),
             'datePublished' => $post->published_at?->toIso8601String(),
             'author'   => ['@type' => 'Person', 'name' => $post->author?->name],
-            'publisher'=> ['@type' => 'Organization', 'name' => 'ВИЗИТ ДОНЕЦК'],
+            'publisher'=> ['@type' => 'Organization', 'name' => 'Код Новороссии'],
         ];
     @endphp
     <script type="application/ld+json">@json($ld)</script>
