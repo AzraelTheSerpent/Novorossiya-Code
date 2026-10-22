@@ -57,7 +57,16 @@ class AiChatService
             $history,
         );
 
-        $response = $this->send($payload);
+        $body = [
+            'model' => (string) config('services.literouter.model'),
+            'messages' => $payload,
+            'temperature' => 0.3,
+            'top_p' => 0.9,
+            'max_tokens' => self::MAX_TOKENS,
+            'stream' => false,
+        ];
+
+        $response = $this->send($body);
         $data = $response->json();
 
         $reply = $this->extractContent(is_array($data) ? $data : []);
@@ -119,11 +128,11 @@ class AiChatService
 
     private function systemPrompt(): string
     {
-        return self::SYSTEM_PROMPT."\n\n<CATALOG>\n".$this->contextBuilder->build()."\n</CATALOG>";
+        return self::SYSTEM_PROMPT."\n\n".$this->contextBuilder->build();
     }
 
     /**
-     * @param  array<int, array{role: string, content: string}>  $payload
+     * @param  array<string, mixed>  $payload
      */
     private function send(array $payload): Response
     {
@@ -162,7 +171,7 @@ class AiChatService
     }
 
     /**
-     * @param  array<int, array{role: string, content: string}>  $payload
+     * @param  array<string, mixed>  $payload
      */
     private function request(string $baseUrl, array $payload, string $key): Response
     {
@@ -256,6 +265,12 @@ class AiChatService
                 }
 
                 if (is_array($part)) {
+                    $type = $part['type'] ?? null;
+
+                    if ($type !== null && $type !== 'text') {
+                        continue;
+                    }
+
                     $parts[] = (string) ($part['text'] ?? $part['content'] ?? '');
                 }
             }

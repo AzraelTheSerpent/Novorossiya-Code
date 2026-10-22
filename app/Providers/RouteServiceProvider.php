@@ -31,9 +31,13 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('ai-chat', function (Request $request) {
             $key = $request->user()?->id ?: $request->ip();
 
+            $tooMany = static fn () => response()->json([
+                'message' => 'Слишком много сообщений. Попробуйте через минуту.',
+            ], 429);
+
             return [
-                Limit::perMinute((int) config('services.literouter.per_minute', 5))->by($key),
-                Limit::perDay((int) config('services.literouter.per_day', 100))->by($key),
+                Limit::perMinute((int) config('services.literouter.per_minute', 5))->by('minute:'.$key)->response($tooMany),
+                Limit::perDay((int) config('services.literouter.per_day', 100))->by('day:'.$key)->response($tooMany),
             ];
         });
 

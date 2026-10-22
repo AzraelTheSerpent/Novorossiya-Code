@@ -27,7 +27,6 @@ class AiChatTest extends \Tests\TestCase
             'services.literouter.per_day' => 100,
         ]);
 
-        RateLimiter::clear('ai-chat');
         Cache::flush();
     }
 
@@ -110,7 +109,7 @@ class AiChatTest extends \Tests\TestCase
         $this->postJson('/platform/ai/chat', ['messages' => $messages])->assertOk();
 
         Http::assertSent(function ($request) {
-            $data = $request->data();
+            $data = json_decode($request->body(), true);
             // system + не больше 8 пользовательских/ассистентских
             $this->assertCount(9, $data['messages']);
 

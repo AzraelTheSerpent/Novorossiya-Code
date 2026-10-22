@@ -46,7 +46,7 @@ class AiContextBuilder
 
     private function render(): string
     {
-        $budget = self::MAX_LENGTH;
+        $budget = self::MAX_LENGTH - mb_strlen("<CATALOG>\n\n</CATALOG>");
         $lines = [];
 
         $add = function (string $line) use (&$lines, &$budget): bool {
@@ -76,7 +76,7 @@ class AiContextBuilder
         $this->addEvents($add);
         $this->addPlaces($add, $verticalNames);
 
-        return implode("\n", $lines);
+        return "<CATALOG>\n".implode("\n", $lines)."\n</CATALOG>";
     }
 
     private function addJourneys(callable $add): void
