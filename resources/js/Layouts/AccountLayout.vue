@@ -25,7 +25,7 @@ const isOn = (i) => i.exact ? page.url === i.href : page.url.startsWith(i.href)
 <template>
     <div class="admin">
         <aside class="side">
-            <Link href="/account" class="side__logo">ВИЗИТ<em>ДОНЕЦК · КАБИНЕТ</em></Link>
+            <Link href="/account" class="side__logo"><img src="/assets/brand/logo-light.webp" class="brand-logo brand-logo-light" alt="" width="58" height="58"><img src="/assets/brand/logo-dark.webp" class="brand-logo brand-logo-dark" alt="" width="58" height="58"><span>КОД НОВОРОССИИ<em>КАБИНЕТ</em></span></Link>
             <nav class="side__nav">
                 <Link v-for="i in nav" :key="i.href" :href="i.href" class="side__link" :class="{ on: isOn(i) }">
                     <span>{{ i.icon }}</span>{{ i.label }}

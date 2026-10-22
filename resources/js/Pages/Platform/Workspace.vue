@@ -21,7 +21,7 @@ if(new URLSearchParams(location.search).has('site')) section.value='Инвест
 <template>
 <Head title="Личный кабинет"/>
 <main class="workspace">
-<header><Link href="/" class="brand"><span class="brand-symbol">к<span>·</span></span><span>КОД<br><b>НОВОРОССИИ</b></span></Link><Link class="text-link" href="/"><ArrowLeft :size="16"/> К путеводителю</Link><button class="text-link" @click="router.post('/logout')"><LogOut :size="16"/>Выйти</button></header>
+<header><Link href="/" class="brand"><img src="/assets/brand/logo-light.webp" class="brand-logo brand-logo-light" alt="" width="76" height="76"><img src="/assets/brand/logo-dark.webp" class="brand-logo brand-logo-dark" alt="" width="76" height="76"><span>КОД<br><b>НОВОРОССИИ</b></span></Link><Link class="text-link" href="/"><ArrowLeft :size="16"/> К путеводителю</Link><button class="text-link" @click="router.post('/logout')"><LogOut :size="16"/>Выйти</button></header>
 <p class="eyebrow">ВАШЕ МЕСТО В РЕГИОНЕ</p><h1>Здравствуйте, {{page.props.auth.user.name}}</h1><p class="lead">Управляйте объектами, следите за заявками и развивайте регион.</p>
 <p v-if="page.props.flash?.success" class="flash" role="status">{{page.props.flash.success}}</p><p v-if="Object.keys(page.props.errors??{}).length" class="form-error">{{Object.values(page.props.errors).flat().join(' ')}}</p>
 <div class="workspace-tabs"><button v-for="t in tabs" :key="t" :class="{active:section===t}" @click="section=t">{{t}}</button></div>
