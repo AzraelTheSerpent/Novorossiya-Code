@@ -28,6 +28,15 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        RateLimiter::for('ai-chat', function (Request $request) {
+            $key = $request->user()?->id ?: $request->ip();
+
+            return [
+                Limit::perMinute((int) config('services.literouter.per_minute', 5))->by($key),
+                Limit::perDay((int) config('services.literouter.per_day', 100))->by($key),
+            ];
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

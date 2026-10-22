@@ -22,6 +22,8 @@ class HandleInertiaRequests extends Middleware
                 'roles'       => $request->user()->getRoleNames()->values()->toArray(),
                 'permissions' => $request->user()->getAllPermissions()->pluck('name')->values()->toArray(),
             ] : null,
+            'aiChatEnabled' => (bool) config('services.literouter.enabled')
+                && filled(config('services.literouter.key')),
             'feedbackNewCount' => fn () => auth()->check() && auth()->user()->hasRole('admin')
                 ? \App\Models\Feedback::new()->count()
                 : 0,
