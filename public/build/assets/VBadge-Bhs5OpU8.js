@@ -1,1 +1,0 @@
-import{c as e,t,n as r,o as l}from"./pinia-TKOjAPh9.js";const c={__name:"VBadge",props:{color:{type:String,default:"gray"},label:String},setup(a){return(o,s)=>(l(),e("span",{class:r(["vbadge",`vbadge--${a.color}`])},t(a.label),3))}};export{c as _};
