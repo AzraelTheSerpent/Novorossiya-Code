@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\PlatformController::class, 'index'])->name('landing');
 Route::get('/explore/{slug?}', [App\Http\Controllers\PlatformController::class, 'index'])->name('explore');
 Route::get('/platform/data', [App\Http\Controllers\PlatformController::class, 'data']);
+Route::get('/platform/weather', App\Http\Controllers\WeatherController::class)->middleware('throttle:30,1');
 Route::get('/platform/places/{place}/reviews', [App\Http\Controllers\PlatformController::class, 'reviews']);
 Route::post('/platform/places/{place}/reports', [App\Http\Controllers\PlatformController::class, 'report'])->middleware('throttle:5,1');
 Route::middleware('auth')->prefix('platform')->controller(App\Http\Controllers\PlatformController::class)->group(function () {

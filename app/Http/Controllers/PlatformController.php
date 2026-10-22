@@ -30,7 +30,7 @@ class PlatformController extends Controller
                 'cover'=>$p->cover_url, 'photos'=>$p->photos->pluck('path'), 'tags'=>$p->tags ?? [], 'details'=>$p->details ?? [],
                 'hours'=>$p->working_hours ?? [], 'phone'=>$p->phone, 'site'=>$p->site,
                 'format'=>$p->visit_format, 'verified_at'=>$p->verified_at?->format('d.m.Y'),
-                'owner_id'=>$p->owner_id,
+                'owner_id'=>$p->owner_id, 'promotion'=>$p->active_promotion,
             ])->values(),
             'verticals'=>Vertical::orderBy('id')->get(),
             'categories'=>Category::orderBy('sort')->get(['id', 'name']),
@@ -52,7 +52,7 @@ class PlatformController extends Controller
         $curator=$u->hasAnyRole(['admin','curator']);
         return Inertia::render('Platform/Workspace', [
             'data'=>$this->data(), 'isAdmin'=>$admin, 'isModerator'=>$moderator, 'isCurator'=>$curator,
-            'ownPlaces'=>Place::where('owner_id',$u->id)->get(),
+            'ownPlaces'=>Place::when(!$admin,fn($q)=>$q->where('owner_id',$u->id))->get(),
             'queue'=>$moderator ? Place::where('status',ModerationStatus::OnModeration)->get() : [],
             'reviews'=>$moderator ? Review::where('status',ReviewStatus::Pending)->with('place:id,name')->get() : [],
             'reports'=>$moderator ? DB::table('place_reports')->where('resolved',false)->get() : [],
@@ -79,6 +79,11 @@ class PlatformController extends Controller
             'lng'=>'required|numeric|between:-180,180','phone'=>'nullable|string|max:20',
             'price_level'=>'required|integer|between:1,4','visit_format'=>'required|in:individual,group,booking',
             'details'=>'nullable|array|max:15','details.*'=>'nullable|string|max:500',
+            'promotion'=>'nullable|array:code,discount,conditions,expires_at',
+            'promotion.code'=>'required_with:promotion|nullable|string|max:40|regex:/^[A-Za-zА-Яа-яЁё0-9_-]+$/u',
+            'promotion.discount'=>'required_with:promotion|nullable|integer|between:1,90',
+            'promotion.conditions'=>'required_with:promotion|nullable|string|max:500',
+            'promotion.expires_at'=>'nullable|date_format:Y-m-d',
             'photos'=>'nullable|array|max:5','photos.*'=>'image|mimes:jpg,jpeg,png,webp|max:4096|dimensions:max_width=6000,max_height=6000',
             'rights_confirmed'=>'accepted']);
         unset($v['rights_confirmed'], $v['photos']);

@@ -18,7 +18,7 @@ class Place extends Model
     use HasFactory, SoftDeletes, Moderatable;
 
     protected $fillable = [
-        'vertical_id', 'tags', 'details', 'visit_format', 'verified_at',
+        'vertical_id', 'tags', 'details', 'visit_format', 'verified_at', 'promotion',
         'owner_id', 'category_id', 'district_id', 'name', 'slug',
         'short_description', 'description', 'address', 'lat', 'lng',
         'phone', 'email', 'site', 'socials', 'working_hours',
@@ -28,7 +28,7 @@ class Place extends Model
     ];
 
     protected $casts = [
-        'tags' => 'array', 'details' => 'array', 'verified_at' => 'datetime',
+        'tags' => 'array', 'details' => 'array', 'verified_at' => 'datetime', 'promotion' => 'array',
         'status'        => ModerationStatus::class,
         'socials'       => 'array',
         'working_hours' => 'array',
@@ -75,6 +75,15 @@ class Place extends Model
     }
 
     /* ------- доменная логика ------- */
+    public function getActivePromotionAttribute(): ?array
+    {
+        $offer = $this->promotion;
+        if (!$offer || empty($offer['code']) || empty($offer['discount'])) return null;
+        $expires = empty($offer['expires_at']) ? null : \Illuminate\Support\Carbon::parse($offer['expires_at'])->endOfDay();
+        if ($expires?->isPast()) return null;
+        return $offer + ['expires_at' => null, 'valid_until' => $expires?->toIso8601String()];
+    }
+
     public function recordView(?int $userId = null, ?string $source = null, ?string $ip = null): void
     {
         $this->views()->create(['user_id' => $userId, 'source' => $source, 'ip' => $ip]);
