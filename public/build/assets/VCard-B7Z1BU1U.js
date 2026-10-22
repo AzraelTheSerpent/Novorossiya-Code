@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as r,g as s,o as c}from"./pinia-BuU2JntU.js";const t={},a={class:"vcard"};function n(e,_){return c(),r("div",a,[s(e.$slots,"default")])}const l=o(t,[["render",n]]);export{l as V};

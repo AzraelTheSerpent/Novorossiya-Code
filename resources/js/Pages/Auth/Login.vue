@@ -1,0 +1,5 @@
+<script setup>
+import {Head,Link,useForm} from '@inertiajs/vue3';
+const form=useForm({email:'',password:'',remember:false});
+</script>
+<template><Head title="Вход"/><main class="auth-page"><section class="auth-panel"><Link href="/" class="brand"><span class="brand-symbol">к<span>·</span></span><span>КОД<br><b>НОВОРОССИИ</b></span></Link><h1>С возвращением</h1><p class="lead">Ваши места, маршруты и возможности.</p><form @submit.prevent="form.post('/login')"><label>Электронная почта<input v-model="form.email" type="email" autocomplete="email" required autofocus></label><label>Пароль<input v-model="form.password" type="password" autocomplete="current-password" required></label><p v-for="(error,key) in form.errors" :key="key" class="form-error">{{error}}</p><label class="check-label"><input v-model="form.remember" type="checkbox"> Запомнить меня</label><button class="primary" :disabled="form.processing">Войти</button></form><p>Нет аккаунта? <Link href="/register">Зарегистрируйтесь</Link><br><Link href="/">Продолжить без входа</Link></p></section></main></template>
