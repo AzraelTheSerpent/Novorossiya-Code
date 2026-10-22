@@ -20,7 +20,7 @@
 
 <header class="hdr scrolled">
     <div class="wrap hdr-in">
-        <a class="logo" href="/">ВИЗИТ<em>ДОНЕЦК</em></a>
+        <a class="logo" href="/"><img src="/assets/brand/logo-light.webp" class="brand-logo brand-logo-light" alt="" width="76" height="76"><img src="/assets/brand/logo-dark.webp" class="brand-logo brand-logo-dark" alt="" width="76" height="76"><span>КОД<em>НОВОРОССИИ</em></span></a>
         <nav class="nav-links">
             <a href="/#places">Места</a>
             <a href="/#map">Карта</a>
