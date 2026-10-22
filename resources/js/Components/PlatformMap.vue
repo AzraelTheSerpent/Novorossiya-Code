@@ -22,7 +22,7 @@ onMounted(()=>{
         map.once('style.load',()=>{
             ready.value=true;
             map.addSource('places',{type:'geojson',data:geo(),cluster:true,clusterRadius:44,clusterMaxZoom:14});
-            map.addLayer({id:'clusters',type:'circle',source:'places',filter:['has','point_count'],paint:{'circle-color':'#547864','circle-radius':['step',['get','point_count'],21,10,27],'circle-stroke-color':'#fff','circle-stroke-width':3}});
+            map.addLayer({id:'clusters',type:'circle',source:'places',filter:['has','point_count'],paint:{'circle-color':'#1763b5','circle-radius':['step',['get','point_count'],21,10,27],'circle-stroke-color':'#fff','circle-stroke-width':3}});
             // DOM cluster labels avoid a remote glyph server and remain readable offline.
             map.on('render',()=>{
                 if(!map.isSourceLoaded('places')) return;
@@ -36,9 +36,9 @@ onMounted(()=>{
                     clusterMarkers.push(new maplibregl.Marker({element:el}).setLngLat(f.geometry.coordinates).addTo(map));
                 }
             });
-            map.addLayer({id:'points',type:'circle',source:'places',filter:['!',['has','point_count']],paint:{'circle-color':'#b75d40','circle-radius':9,'circle-stroke-color':'white','circle-stroke-width':3}});
+            map.addLayer({id:'points',type:'circle',source:'places',filter:['!',['has','point_count']],paint:{'circle-color':'#1763b5','circle-radius':9,'circle-stroke-color':'white','circle-stroke-width':3}});
             map.addSource('route',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
-            map.addLayer({id:'route',type:'line',source:'route',paint:{'line-color':'#547864','line-width':4,'line-dasharray':[2,2]}});
+            map.addLayer({id:'route',type:'line',source:'route',paint:{'line-color':'#1763b5','line-width':4,'line-dasharray':[2,2]}});
             map.on('click','points',e=>emit('select',Number(e.features[0].properties.id)));
             map.on('click','clusters',async e=>{
                 const f=e.features[0]; const source=map.getSource('places');

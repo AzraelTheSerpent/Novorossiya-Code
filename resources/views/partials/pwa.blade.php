@@ -6,9 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Код региона">
-<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/pwa.css">
+<link rel="stylesheet" href="/redesign.css?v=1">
+<script src="/theme.js?v=1"></script>
 @if(isset($installUi) && !$installUi)
     <script>window.KOD_PWA_INSTALL_UI = false;</script>
 @endif

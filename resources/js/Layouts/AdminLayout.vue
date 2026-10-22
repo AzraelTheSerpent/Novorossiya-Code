@@ -41,7 +41,7 @@ const logout = () => router.post('/logout')
 <template>
     <div class="admin">
         <aside class="side">
-            <Link href="/admin" class="side__logo">ВИЗИТ<em>ДОНЕЦК · АДМИН</em></Link>
+            <Link href="/admin" class="side__logo"><img src="/assets/brand/logo-light.webp" class="brand-logo brand-logo-light" alt="" width="58" height="58"><img src="/assets/brand/logo-dark.webp" class="brand-logo brand-logo-dark" alt="" width="58" height="58"><span>КОД НОВОРОССИИ<em>АДМИН</em></span></Link>
 
             <nav class="side__nav">
                 <Link v-for="i in nav" :key="i.href" :href="i.href"
