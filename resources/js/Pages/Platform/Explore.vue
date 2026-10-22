@@ -11,11 +11,11 @@ import { activePromotion } from '@/platform/promotion.mjs';
 import { useExplorer } from '@/stores/explorer';
 import { matches, distance, openNow } from '@/platform/search';
 import { getWorkerUrl } from '@/platform/maplibre';
-const props=defineProps({data:Object,selectedSlug:String});
+const props=defineProps({data:Object,selectedSlug:String,initialVerticalId:{type:Number,default:null}});
 const page=usePage(), store=useExplorer();
 const aiEnabled=computed(()=>page.props.aiChatEnabled===true);
 const data=ref(props.data);
-const tab=ref('Каталог'), query=ref(''), vertical=ref(0), category=ref(''), sort=ref('popular');
+const tab=ref('Каталог'), query=ref(''), vertical=ref(props.initialVerticalId ?? props.data.verticals.find(v=>v.slug==='tourism')?.id ?? 0), category=ref(''), sort=ref('popular');
 const offersOnly=ref(false),offerTime=ref(Date.now());
 let offerTimer;
 onMounted(()=>{offerTimer=setInterval(()=>offerTime.value=Date.now(),60000);});
@@ -57,6 +57,9 @@ const filtered=computed(()=>{
 const stops=computed(()=>store.route.map(id=>data.value.places.find(p=>p.id===id)).filter(Boolean));
 const lengthKm=computed(()=>stops.value.reduce((sum,p,i)=>i?sum+distance(stops.value[i-1],p):sum,0));
 const events=computed(()=>data.value.events.filter(e=>(!eventDate.value||e.starts_at.slice(0,10)===eventDate.value)&&(!eventType.value||e.type===eventType.value)));
+const catalogVertical=computed(()=>data.value.verticals.find(v=>v.id===Number(vertical.value)));
+function catalogueUrl(){const params=new URLSearchParams({vertical:catalogVertical.value?.slug??'all'});if(tab.value!=='Каталог')params.set('tab',tab.value);return '/?'+params.toString();}
+function chooseVertical(id){vertical.value=id;category.value='';history.replaceState({},'',catalogueUrl());}
 const selectedVertical=computed(()=>data.value.verticals.find(v=>v.id===selected.value?.vertical_id));
 const notice=text=>{message.value=text;setTimeout(()=>message.value='',5500);};
 async function api(url,method='GET',body) {
@@ -70,7 +73,7 @@ async function select(p) {
     history.replaceState({},'',`/explore/${p.slug}`);
     try {reviews.value=await api(`/platform/places/${p.id}/reviews`);} catch {notice('Отзывы доступны при подключении к сети.');}
 }
-function close() {selected.value=null;history.replaceState({},'','/');}
+function close() {selected.value=null;history.replaceState({},'',catalogueUrl());}
 async function submitReview() {
     try {const r=await api(`/platform/places/${selected.value.id}/reviews`,'POST',{rating:Number(rating.value),text:reviewText.value});notice(r.message);reviewText.value='';} catch(e){notice(e.message);}
 }
@@ -118,11 +121,15 @@ function changeTab(name) {tab.value=name;if(name==='Карта')view.value='map'
 const dateLabel=d=>new Date(d).toLocaleDateString('ru',{day:'numeric',month:'long'});
 onMounted(async()=>{
     if(!navigator.onLine) try {data.value=JSON.parse(localStorage.getItem('kod:catalog'))??data.value;}catch{}
+    const requestedVertical=new URLSearchParams(location.search).get('vertical');
+    if(requestedVertical==='all')vertical.value=0;
+    else if(requestedVertical){const direction=data.value.verticals.find(v=>v.slug===requestedVertical);if(direction)vertical.value=direction.id;}
     if(props.selectedSlug) {const p=data.value.places.find(p=>p.slug===props.selectedSlug);if(p)select(p);}
     if(user.value) try {myJourneys.value=await api('/platform/journeys');}catch{}
     if(new URLSearchParams(location.search).get('tab')) changeTab(new URLSearchParams(location.search).get('tab'));
 });
 watch(()=>props.data,v=>data.value=v);
+watch(()=>props.initialVerticalId,v=>{vertical.value=v??data.value.verticals.find(item=>item.slug==='tourism')?.id??0;});
 </script>
 
 <template>
@@ -145,7 +152,8 @@ watch(()=>props.data,v=>data.value=v);
         <div v-if="store.storageError" class="network-banner">{{store.storageError}}</div>
         <template v-if="['Каталог','Карта','Избранное'].includes(tab)">
             <section class="intro" :class="{'city-hero':tab!=='Избранное'}"><img v-if="tab!=='Избранное'" class="city-hero-image" src="/assets/city-night.jpg" alt="Панорама ночного Донецка" width="1280" height="720" fetchpriority="high"><div class="city-hero-copy"><p class="eyebrow">ДОНЕЦК · ГОРОД В ВАШЕМ РИТМЕ</p><h1>{{tab==='Избранное'?'Ваши любимые места':'Ближе к городу.'}}<br v-if="tab!=='Избранное'"><em v-if="tab!=='Избранное'">Ближе к своему.</em></h1><p>{{tab==='Избранное'?'Сохраните то, к чему хочется вернуться.':'Места, люди и маленькие открытия. Найдите свой Донецк — и приятный бонус по пути.'}}</p></div><WeatherBadge/></section>
-            <div class="vertical-tabs"><button :class="{chosen:!vertical}" @click="vertical=0">Все места <span>{{data.places.length}}</span></button><button v-for="v in data.verticals" :key="v.id" :class="{chosen:vertical===v.id}" @click="vertical=v.id"><i :style="{background:v.color}"></i>{{v.name}}</button></div>
+            <div class="vertical-tabs"><button :class="{chosen:!vertical}" @click="chooseVertical(0)">Все места <span>{{data.places.length}}</span></button><button v-for="v in data.verticals" :key="v.id" :class="{chosen:vertical===v.id}" @click="chooseVertical(v.id)"><i :style="{background:v.color}"></i>{{v.name}}</button></div>
+            <div v-if="catalogVertical" class="vertical-context"><span>{{catalogVertical.slug==='tourism'?'Туристический режим':catalogVertical.name}}</span><a :href="'/verticals/'+encodeURIComponent(catalogVertical.slug)">О направлении <ArrowUpRight :size="14"/></a></div>
             <div class="catalog-tools"><button class="offer-filter" :class="{active:offersOnly}" :aria-pressed="offersOnly" @click="offersOnly=!offersOnly"><span aria-hidden="true">%</span> Места со скидкой <span class="offer-count">{{data.places.filter(p=>activePromotion(p,offerTime)).length}}</span></button><p>Откройте место на карте — заберите промокод в карточке</p></div><section class="searchbar"><Search :size="20"/><input v-model="query" aria-label="Поиск мест" placeholder="Место, адрес или то, что вам интересно"><button class="filter-toggle" :class="{selected:filters}" :aria-expanded="filters" aria-controls="catalog-filters" @click="filters=!filters"><SlidersHorizontal :size="17"/>Фильтры</button></section>
             <div v-if="filters" id="catalog-filters" class="filter-panel"><label>Категория<select v-model="category"><option value="">Все категории</option><option v-for="c in [...new Set(data.places.map(p=>p.category))]" :key="c">{{c}}</option></select></label><label>Рейтинг<select v-model="minRating"><option :value="0">Любой</option><option :value="4">От 4</option><option :value="4.5">От 4,5</option></select></label><label>Стоимость<select v-model="maxPrice"><option :value="4">Любая</option><option :value="1">Бесплатно / бюджетно</option><option :value="2">До ₽₽</option></select></label><label>Посещение<select v-model="format"><option value="">Любое</option><option value="individual">Самостоятельно</option><option value="group">С группой</option><option value="booking">По записи</option></select></label><label class="check-label"><input v-model="openOnly" type="checkbox"> Открыто сейчас</label></div>
             <div class="results-bar"><p><b>{{filtered.length}}</b> мест для вашего открытия</p><div><select v-model="sort" aria-label="Сортировка"><option value="popular">По популярности</option><option value="rating">По рейтингу</option><option value="name">По названию</option><option v-if="position" value="distance">По расстоянию</option></select><button class="icon-btn" title="Найти рядом со мной" @click="locate"><Navigation :size="17"/></button><div class="view-switch"><button :class="{on:view==='list'}" aria-label="Список" @click="view='list'"><List :size="17"/></button><button :class="{on:view==='split'}" aria-label="Список и карта" @click="view='split'"><Map :size="17"/></button></div></div></div>

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 /* ---------- публичная часть ---------- */
 Route::get('/', [App\Http\Controllers\PlatformController::class, 'index'])->name('landing');
 Route::get('/explore/{slug?}', [App\Http\Controllers\PlatformController::class, 'index'])->name('explore');
+Route::get('/verticals/{vertical:slug}', [App\Http\Controllers\PlatformController::class, 'verticalPage'])->name('verticals.show');
 Route::get('/platform/data', [App\Http\Controllers\PlatformController::class, 'data']);
 Route::get('/platform/weather', App\Http\Controllers\WeatherController::class)->middleware('throttle:30,1');
 Route::get('/platform/places/{place}/reviews', [App\Http\Controllers\PlatformController::class, 'reviews']);

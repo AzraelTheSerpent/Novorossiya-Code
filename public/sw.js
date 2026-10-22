@@ -1,7 +1,7 @@
 /* Код Новороссии · service worker
  * Публичные страницы и каталог доступны офлайн, кабинет и аутентификация — нет.
  */
-const VERSION = 'kod-shell-v7';
+const VERSION = 'kod-shell-v8';
 const PAGES = 'kod-pages-v1';
 const DATA = 'kod-data-v1';
 const TILES = 'kod-tiles-v1';
@@ -28,7 +28,7 @@ const PRECACHE = [
     '/apple-touch-icon.png',
 ];
 
-const CACHEABLE_PAGE = /^\/(?:places|place\/|afisha|news|post\/|event\/)/;
+const CACHEABLE_PAGE = /^\/(?:places|place\/|verticals\/|afisha|news|post\/|event\/)/;
 const PRIVATE_PAGE = /^\/(?:admin|account|login|logout|register|password|forgot-password|reset-password|security|profile|api|platform\/(?:workspace|journeys|favorites))(?:\/|$)/;
 const ASSET = /^\/(?:(?:build|assets|storage|maps)\/|manifest\.webmanifest$|(?:pwa|theme)\.(?:css|js)$|redesign\.css$|offline\.html$|icon\.svg$|icon-(?:192|512)\.png$|icon-maskable-(?:192|512)\.png$|apple-touch-icon\.png$|favicon\.ico$)/;
 
