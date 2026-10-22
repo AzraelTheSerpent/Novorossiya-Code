@@ -11,6 +11,13 @@ services:
       DB_DATABASE: /app/storage/database/database.sqlite
       MAIL_MAILER: log
       DEMO_SEED: "true"
+      AI_CHAT_ENABLED: "${AI_CHAT_ENABLED:-true}"
+      LITEROUTER_API_KEY: "${LITEROUTER_API_KEY:-}"
+      LITEROUTER_BASE_URL: "${LITEROUTER_BASE_URL:-https://api.literouter.com/v1}"
+      LITEROUTER_MODEL: "${LITEROUTER_MODEL:-deepseek-v4-flash-cheap:free}"
+      LITEROUTER_TIMEOUT: "${LITEROUTER_TIMEOUT:-45}"
+      AI_CHAT_PER_MINUTE: "${AI_CHAT_PER_MINUTE:-5}"
+      AI_CHAT_PER_DAY: "${AI_CHAT_PER_DAY:-100}"
     volumes:
       - kod_storage:/app/storage
 volumes:

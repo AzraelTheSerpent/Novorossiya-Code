@@ -180,9 +180,9 @@ watch(()=>props.data,v=>data.value=v);
                     <span v-if="!aiEnabled" class="badge-status">Временно недоступен</span>
                 </div>
 
-                <AiChat v-if="aiEnabled" :online="store.online" />
+                <AiChat :enabled="aiEnabled" :online="store.online" />
 
-                <p v-else class="muted">
+                <p v-if="!aiEnabled" class="muted">
                     ИИ-помощник временно недоступен. Ниже — ответы на частые вопросы.
                 </p>
 

@@ -5,6 +5,7 @@ import { RotateCcw, Send } from 'lucide-vue-next';
 import { isValidMessage, MAX_LENGTH, trimHistory } from '@/platform/chat';
 
 const props = defineProps({
+    enabled: { type: Boolean, default: true },
     online: { type: Boolean, default: true },
     maxMessages: { type: Number, default: 12 },
 });
@@ -96,7 +97,7 @@ async function send() {
 }
 
 async function sendQuick(question) {
-    if (!props.online || sending.value) return;
+    if (sending.value) return;
     input.value = question;
     await send();
 }
@@ -237,7 +238,7 @@ onBeforeUnmount(() => {
                 v-for="q in quickPrompts"
                 :key="q"
                 type="button"
-                :disabled="!online || sending"
+                :disabled="sending"
                 @click="sendQuick(q)"
             >
                 {{ q }}
@@ -252,7 +253,6 @@ onBeforeUnmount(() => {
                 rows="1"
                 aria-label="Сообщение ИИ-помощнику"
                 placeholder="Напишите вопрос…"
-                :disabled="!online"
                 @keydown.enter.exact="onEnter"
             ></textarea>
             <button
