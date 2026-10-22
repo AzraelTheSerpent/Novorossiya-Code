@@ -1,7 +1,7 @@
 /* Код Новороссии · service worker
  * Публичные страницы и каталог доступны офлайн, кабинет и аутентификация — нет.
  */
-const VERSION = 'kod-shell-v5';
+const VERSION = 'kod-shell-v7';
 const PAGES = 'kod-pages-v1';
 const DATA = 'kod-data-v1';
 const TILES = 'kod-tiles-v1';
@@ -14,6 +14,9 @@ const PRECACHE = [
     '/redesign.css?v=1',
     '/assets/brand/logo-light.webp',
     '/assets/brand/logo-dark.webp',
+    '/maps/region-ru-positron.json',
+    '/maps/region-ru-dark.json',
+    '/assets/city-night.jpg',
     '/pwa.css',
     '/pwa.js',
     '/manifest.webmanifest',
@@ -27,7 +30,7 @@ const PRECACHE = [
 
 const CACHEABLE_PAGE = /^\/(?:places|place\/|afisha|news|post\/|event\/)/;
 const PRIVATE_PAGE = /^\/(?:admin|account|login|logout|register|password|forgot-password|reset-password|security|profile|api|platform\/(?:workspace|journeys|favorites))(?:\/|$)/;
-const ASSET = /^\/(?:(?:build|assets|storage)\/|manifest\.webmanifest$|(?:pwa|theme)\.(?:css|js)$|redesign\.css$|offline\.html$|icon\.svg$|icon-(?:192|512)\.png$|icon-maskable-(?:192|512)\.png$|apple-touch-icon\.png$|favicon\.ico$)/;
+const ASSET = /^\/(?:(?:build|assets|storage|maps)\/|manifest\.webmanifest$|(?:pwa|theme)\.(?:css|js)$|redesign\.css$|offline\.html$|icon\.svg$|icon-(?:192|512)\.png$|icon-maskable-(?:192|512)\.png$|apple-touch-icon\.png$|favicon\.ico$)/;
 
 self.addEventListener('install', event => {
     event.waitUntil((async () => {
@@ -73,6 +76,8 @@ self.addEventListener('fetch', event => {
 
     // Accounts and staff areas always go to the network.
     if (url.origin === self.location.origin && PRIVATE_PAGE.test(url.pathname)) return;
+    // Weather must never look current when the device is offline.
+    if (url.origin === self.location.origin && url.pathname === '/platform/weather') return;
 
     if (request.mode === 'navigate') {
         // External links should fail in the browser, not show our offline page.
@@ -92,6 +97,11 @@ self.addEventListener('fetch', event => {
     }
 
     if (url.hostname === 'tile.openstreetmap.org') {
+        event.respondWith(cacheFirst(request, TILES, 180));
+        return;
+    }
+
+    if (url.hostname === 'tiles.openfreemap.org') {
         event.respondWith(cacheFirst(request, TILES, 180));
         return;
     }
