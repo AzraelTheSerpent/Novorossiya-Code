@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AfishaController;
+use App\Http\Controllers\AiChatController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CatalogController;
@@ -22,6 +23,7 @@ Route::get('/explore/{slug?}', [App\Http\Controllers\PlatformController::class, 
 Route::get('/platform/data', [App\Http\Controllers\PlatformController::class, 'data']);
 Route::get('/platform/places/{place}/reviews', [App\Http\Controllers\PlatformController::class, 'reviews']);
 Route::post('/platform/places/{place}/reports', [App\Http\Controllers\PlatformController::class, 'report'])->middleware('throttle:5,1');
+Route::post('/platform/ai/chat', [AiChatController::class, 'chat'])->middleware('throttle:ai-chat')->name('platform.ai.chat');
 Route::middleware('auth')->prefix('platform')->controller(App\Http\Controllers\PlatformController::class)->group(function () {
     Route::get('/workspace', 'workspace')->name('platform.workspace');
     Route::post('/verticals', 'vertical');
