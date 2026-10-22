@@ -1,4 +1,4 @@
-/* ============ ВИЗИТ ДОНЕЦК · landing.js ============ */
+/* ============ Код Новороссии · landing.js ============ */
 import * as maplibregl from './platform/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -723,20 +723,9 @@ $('#dlAgain').onclick = downloadPDF;
 
 /* ---------- генератор демо-PDF ---------- */
 function downloadPDF() {
-    const L = ["BT /F1 26 Tf 60 780 Td (VIZIT DONETSK) Tj ET", "BT /F1 12 Tf 60 750 Td (Glavnyy putevoditel po gorodu - demo preview) Tj ET", "BT /F1 10 Tf 60 715 Td (Partnery proekta: MOY BIZNES DPR) Tj ET", "BT /F1 10 Tf 60 699 Td (Ministerstvo ekonomicheskogo razvitiya DNR) Tj ET"].join("\n");
-    const objs = ["<</Type/Catalog/Pages 2 0 R>>", "<</Type/Pages/Kids[3 0 R]/Count 1>>", "<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>", "<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>", `<</Length ${L.length}>>\nstream\n${L}\nendstream`];
-    let pdf = "%PDF-1.4\n";
-    const off = [];
-    objs.forEach((o, i) => {
-        off.push(pdf.length);
-        pdf += `${i + 1} 0 obj\n${o}\nendobj\n`;
-    });
-    const x = pdf.length;
-    pdf += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n` + off.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('');
-    pdf += `trailer\n<</Size ${objs.length + 1}/Root 1 0 R>>\nstartxref\n${x}\n%%EOF`;
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([pdf], {type: 'application/pdf'}));
-    a.download = 'VIZIT_DONETSK_presentation.pdf';
+    a.href = '/assets/KOD_NOVOROSSIYA_presentation.pdf';
+    a.download = 'KOD_NOVOROSSIYA_presentation.pdf';
     a.click();
     toast('⬇ Скачивание PDF началось');
 }
@@ -786,9 +775,9 @@ $('#vFull').onclick = () => {
 };
 $('#vShare').onclick = async () => {
     try {
-        await navigator.share({title: 'ВИЗИТ ДОНЕЦК — печатная версия', url: location.href});
+        await navigator.share({title: 'Код Новороссии — печатная версия', url: location.href});
     } catch (e) {
-        toast('Ссылка скопирована: визит-донецк.рф');
+        toast('Ссылка скопирована: Код Новороссии');
     }
 };
 $('#vDownload').onclick = downloadPDF;
@@ -1087,7 +1076,7 @@ function showStory() {
     storyMediaEl.appendChild(mediaEl);
 
     // текст справа
-    $('#storyPlace').textContent = s.place?.name ?? 'ВИЗИТ ДОНЕЦК';
+    $('#storyPlace').textContent = s.place?.name ?? 'Код Новороссии';
     $('#storyTitle').textContent = s.title ?? '';
     $('#storyText').textContent = s.text ?? '';
     $('#storySide').style.display = (s.title || s.text) ? '' : 'none';

@@ -41,6 +41,7 @@ class PlatformSeeder extends Seeder {
             $p->photos()->updateOrCreate(['is_cover'=>true],['path'=>'/assets/'.$image,'sort'=>0]);
             $places[]=$p;
         }
+        $this->call(DemoPromotionSeeder::class);
         $journey=Journey::updateOrCreate(['slug'=>'creative-donetsk'],['name'=>'Креативный Донецк',
             'description'=>'Музей, творческая мастерская и пауза за кофе. Три остановки для знакомства с городом.','duration'=>150,'published'=>true]);
         $journey->places()->sync([$places[1]->id=>['position'=>0,'minutes'=>45],$places[0]->id=>['position'=>1,'minutes'=>50],$places[2]->id=>['position'=>2,'minutes'=>30]]);

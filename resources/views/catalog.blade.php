@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Все места Донецка — каталог заведений | ВИЗИТ ДОНЕЦК</title>
+    <title>Все места Донецка — каталог заведений | Код Новороссии</title>
     <meta name="description" content="Полный каталог заведений Донецка: рестораны, кафе, бары, салоны красоты, спорт и отдых. Поиск по районам и категориям.">
     <link rel="canonical" href="{{ url()->current() }}">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Каталог мест Донецка — ВИЗИТ ДОНЕЦК">
+    <meta property="og:title" content="Каталог мест Донецка — Код Новороссии">
     <meta property="og:description" content="{{ $places->total() }} заведений в каталоге. Поиск по категориям и районам.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

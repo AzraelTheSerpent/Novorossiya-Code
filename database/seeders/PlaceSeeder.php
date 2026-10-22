@@ -14,7 +14,7 @@ class PlaceSeeder extends Seeder
 {
     public function run(): void
     {
-        $owner = User::where('email', 'owner@vizit-donetsk.ru')->first();
+        $owner = User::where('email', 'owner@kod-novorossiya.ru')->first();
 
         $places = [
             // slug, name, cat, district, address, lat, lng, price, img, rating, owner?

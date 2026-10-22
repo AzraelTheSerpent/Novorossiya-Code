@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $news->title }} | ВИЗИТ ДОНЕЦК</title>
+    <title>{{ $news->title }} | Код Новороссии</title>
     <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($news->body), 160) }}">
     <link rel="canonical" href="{{ request()->url() }}">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ $news->title }} — ВИЗИТ ДОНЕЦК">
+    <meta property="og:title" content="{{ $news->title }} — Код Новороссии">
     <meta property="og:description" content="{{ \Illuminate\Support\Str::limit(strip_tags($news->body), 160) }}">
     @if($news->image)
         <meta property="og:image" content="{{ str_starts_with($news->image, 'http') ? $news->image : url('/' . ltrim($news->image, '/')) }}">
@@ -24,7 +24,7 @@
             'headline'      => $news->title,
             'datePublished' => $news->published_at?->toIso8601String(),
             'image'         => $news->image ? url('/' . ltrim($news->image, '/')) : null,
-            'author'        => ['@type' => 'Organization', 'name' => 'ВИЗИТ ДОНЕЦК'],
+            'author'        => ['@type' => 'Organization', 'name' => 'Код Новороссии'],
         ])
     </script>
 

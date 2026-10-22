@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ВИЗИТ ДОНЕЦК — главный путеводитель по городу</title>
+    <title>Код Новороссии — главный путеводитель по городу</title>
     <meta name="description" content="{{ $settings['hero']['sub'] ?? 'Все лучшие места Донецка — в одном путеводителе.' }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">

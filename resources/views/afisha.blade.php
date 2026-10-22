@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Афиша Донецка — события и мероприятия | ВИЗИТ ДОНЕЦК</title>
+    <title>Афиша Донецка — события и мероприятия | Код Новороссии</title>
     <meta name="description" content="Афиша Донецка: концерты, выставки, спектакли, спорт и фестивали. {{ $total }} событий на ближайшие дни.">
     <link rel="canonical" href="{{ request()->url() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">

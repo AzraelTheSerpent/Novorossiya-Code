@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Новости Донецка — события, открытия, обновления | ВИЗИТ ДОНЕЦК</title>
-    <meta name="description" content="Свежие новости Донецка: открытия заведений, события, акции и обновления городского путеводителя ВИЗИТ ДОНЕЦК.">
+    <title>Новости Донецка — события, открытия, обновления | Код Новороссии</title>
+    <meta name="description" content="Свежие новости Донецка: открытия заведений, события, акции и обновления городского путеводителя Код Новороссии.">
     <link rel="canonical" href="{{ request()->url() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">

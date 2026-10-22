@@ -13,8 +13,25 @@ class PlatformController extends Controller
 {
     public function index(Request $request, ?string $slug = null)
     {
-        if ($slug) Place::approved()->where('slug', $slug)->firstOrFail();
-        return Inertia::render('Platform/Explore', ['data' => $this->data(), 'selectedSlug' => $slug]);
+        $place = $slug ? Place::approved()->where('slug', $slug)->firstOrFail() : null;
+        $requested = $request->query('vertical');
+        $initialVerticalId = $requested === 'all' ? 0 : (
+            ($requested ? Vertical::where('slug', $requested)->value('id') : null)
+            ?? $place?->vertical_id
+            ?? Vertical::where('slug', 'tourism')->value('id')
+            ?? 0
+        );
+        return Inertia::render('Platform/Explore', ['data' => $this->data(), 'selectedSlug' => $slug, 'initialVerticalId' => (int) $initialVerticalId]);
+    }
+
+    public function verticalPage(Vertical $vertical)
+    {
+        return view('vertical', [
+            'vertical' => $vertical,
+            'verticals' => Vertical::orderBy('id')->get(),
+            'places' => Place::approved()->where('vertical_id', $vertical->id)
+                ->with(['category', 'photos'])->orderByDesc('is_featured')->orderBy('name')->paginate(12),
+        ]);
     }
 
     public function data(): array
